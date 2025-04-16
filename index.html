@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megha Beria- Profile</title>
+    <link rel="icon" href="/profile.jpeg" type="image/jpeg">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Product+Sans&display=swap" rel="stylesheet">
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500|Jost:400,500,600&display=swap");
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            color: #2b2c48;
+            font-family: "Jost", sans-serif;
+            background-image: url("/background.gif");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .card {
+            max-width: 340px;
+            margin: auto;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1;
+            overflow-x: hidden;
+            background-color: rgba(255, 255, 255, 1);
+            display: flex;
+            transition: 0.3s;
+            flex-direction: column;
+            border-radius: 10px;
+            box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .card[data-state="#about"] {
+            height: 500px;
+
+            .card-main {
+                padding-top: 0;
+            }
+        }
+
+        .card[data-state="#contact"] {
+            height: 450px;
+        }
+
+        .card[data-state="#experience"] {
+            height: 600px;
+        }
+
+        .card.is-active {
+            .card-header {
+                height: 80px;
+            }
+
+            .card-cover {
+                height: 100px;
+                top: -50px;
+            }
+
+            .card-avatar {
+                transform: none;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                bottom: 10px;
+            }
+
+            .card-fullname,
+            .card-jobtitle {
+                left: 86px;
+                transform: none;
+            }
+
+            .card-fullname {
+                bottom: 18px;
+                font-size: 19px;
+            }
+
+            .card-jobtitle {
+                bottom: 16px;
+                letter-spacing: 1px;
+                font-size: 10px;
+            }
+        }
+
+        .card-header {
+            position: relative;
+            display: flex;
+            height: 200px;
+            flex-shrink: 0;
+            width: 100%;
+            transition: 0.3s;
+
+            * {
+                transition: 0.3s;
+            }
+        }
+
+        .card-cover {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            height: 160px;
+            top: -20%;
+            left: 0;
+            will-change: top;
+            background-size: cover;
+            background-position: center;
+            filter: blur(30px);
+            transform: scale(1.2);
+            transition: 0.5s;
+        }
+
+        .card-avatar {
+            width: 100px;
+            height: 100px;
+            box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            object-position: center;
+            object-fit: cover;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-64px);
+        }
+
+        .card-fullname {
+            position: absolute;
+            bottom: 0;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            white-space: nowrap;
+            transform: translateY(-10px) translateX(-50%);
+            left: 50%;
+        }
+
+        .card-jobtitle {
+            position: absolute;
+            bottom: 0;
+            font-size: 11px;
+            white-space: nowrap;
+            font-weight: 500;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-7px);
+        }
+
+        .card-main {
+            position: relative;
+            flex: 1;
+            display: flex;
+            padding-top: 10px;
+            flex-direction: column;
+        }
+
+        .card-subtitle {
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-desc {
+            line-height: 1.6;
+            color: #636b6f;
+            font-size: 14px;
+            margin: 0;
+            font-weight: 400;
+            font-family: "DM Sans", sans-serif;
+        }
+
+        .card-social {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 30px;
+
+            svg {
+                fill: rgb(165, 181, 206);
+                width: 16px;
+                display: block;
+                transition: 0.3s;
+            }
+
+            a {
+                color: #8797a1;
+                height: 32px;
+                width: 32px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                transition: 0.3s;
+                background-color: rgba(93, 133, 193, 0.05);
+                border-radius: 50%;
+                margin-right: 10px;
+
+                &:hover {
+                    svg {
+                        fill: darken(rgb(165, 181, 206), 20%);
+                    }
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .card-buttons {
+            display: flex;
+            background-color: #fff;
+            margin-top: auto;
+            position: sticky;
+            bottom: 0;
+            left: 0;
+
+            button {
+                flex: 1 1 auto;
+                user-select: none;
+                background: 0;
+                font-size: 13px;
+                border: 0;
+                padding: 15px 5px;
+                cursor: pointer;
+                color: #5c5c6d;
+                transition: 0.3s;
+                font-family: "Jost", sans-serif;
+                font-weight: 500;
+                outline: 0;
+                border-bottom: 3px solid transparent;
+
+                &.is-active,
+                &:hover {
+                    color: #2b2c48;
+                    border-bottom: 3px solid #8a84ff;
+                    background: linear-gradient(to bottom,
+                    rgba(127, 199, 231, 0) 0%,
+                    rgba(207, 204, 255, 0.2) 44%,
+                    rgba(211, 226, 255, 0.4) 100%);
+                }
+            }
+        }
+
+        .card-section {
+            display: none;
+
+            &.is-active {
+                display: block;
+                animation: fadeIn 0.6s both;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translatey(40px);
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .card-timeline {
+            margin-top: 30px;
+            position: relative;
+
+            &:after {
+                background: linear-gradient(to top,
+                rgba(134, 214, 243, 0) 0%,
+                rgba(66, 133, 244) 100%);
+                content: "";
+                left: 42px;
+                width: 2px;
+                top: 0;
+                height: 100%;
+                position: absolute;
+                content: "";
+            }
+        }
+
+        .card-item {
+            position: relative;
+            padding-left: 60px;
+            padding-right: 20px;
+            padding-bottom: 30px;
+            z-index: 1;
+
+            &:last-child {
+                padding-bottom: 5px;
+            }
+
+            &:after {
+                content: attr(data-year);
+                width: 10px;
+                position: absolute;
+                top: 0;
+                left: 37px;
+                width: 8px;
+                height: 8px;
+                line-height: 0.6;
+                border: 2px solid #fff;
+                font-size: 11px;
+                text-indent: -35px;
+                border-radius: 50%;
+                color: rgba(#868686, 0.7);
+                background: linear-gradient(to bottom,
+                lighten(#516acc, 20%) 0%,
+                #516acc 100%);
+            }
+        }
+
+        .card-item-title {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .card-item-desc {
+            font-size: 13px;
+            color: #6f6f7b;
+            line-height: 1.5;
+            font-family: "DM Sans", sans-serif;
+        }
+
+        .card-contact-wrapper {
+            margin-top: 20px;
+        }
+
+        .card-contact {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #6f6f7b;
+            font-family: "DM Sans", sans-serif;
+            line-height: 1.6;
+            cursor: pointer;
+
+            & + & {
+                margin-top: 16px;
+            }
+
+            svg {
+                flex-shrink: 0;
+                width: 30px;
+                min-height: 34px;
+                margin-right: 12px;
+                transition: 0.3s;
+                padding-right: 12px;
+                border-right: 1px solid #dfe2ec;
+            }
+        }
+
+        .contact-me {
+            border: 0;
+            outline: none;
+            background: linear-gradient(to right,
+            rgba(66, 133, 244) 0%,
+            rgba(15, 157, 88) 96%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            color: #fff;
+            padding: 12px 16px;
+            width: 100%;
+            border-radius: 5px;
+            margin-top: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: "Jost", sans-serif;
+            transition: 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+<div class="card" data-state="#about">
+    <div class="card-header">
+        <div class="card-cover" style="background-image: url('https://www.color-hex.com/palettes/98193.png')">
+        </div>
+        <img class="card-avatar" src="profile.jpeg" alt="avatar"/>
+        <h1 class="card-fullname">Megha Beria</h1>
+        <h2 class="card-jobtitle">Software Developer | CP Co-Lead</h2>
+    </div>
+    <div class="card-main">
+        <div class="card-section is-active" id="about">
+            <div class="card-content">
+                <div class="card-subtitle">ABOUT</div>
+                <p class="card-desc">I kinda enjoy meddling w semicolons and a few algorithms here n there to draw outputs I don't need to explain, cuz it really is a bad joke if you've to explain it. </p>
+            </div>
+            <div class="card-social">
+                <a href="https://github.com/beriamegha8" target="_blank">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.302 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.045c-3.338.724-4.042-1.416-4.042-1.416-.546-1.387-1.332-1.757-1.332-1.757-1.087-.744.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.997.107-.775.42-1.305.763-1.605-2.665-.3-5.466-1.334-5.466-5.931 0-1.312.469-2.382 1.236-3.221-.124-.303-.536-1.521.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 013.006-.404c1.02.004 2.045.138 3.006.404 2.292-1.552 3.298-1.23 3.298-1.23.654 1.654.242 2.873.118 3.176.769.839 1.236 1.909 1.236 3.221 0 4.61-2.804 5.629-5.475 5.924.43.37.814 1.1.814 2.222v3.293c0 .322.217.694.825.576C20.565 22.092 24 17.593 24 12.297c0-6.627-5.373-12-12-12"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.linkedin.com/in/megha-beria-209b75251/" target="_blank">
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M23.994 24v-.001H24v-8.802c0-4.306-.927-7.623-5.961-7.623-2.42 0-4.044 1.328-4.707 2.587h-.07V7.976H8.489v16.023h4.97v-7.934c0-2.089.396-4.109 2.983-4.109 2.549 0 2.587 2.384 2.587 4.243V24zM.396 7.977h4.976V24H.396zM2.882 0C1.291 0 0 1.291 0 2.882s1.291 2.909 2.882 2.909 2.882-1.318 2.882-2.909A2.884 2.884 0 002.882 0z"/>
+                    </svg>
+                </a>
+
+                <a href="https://leetcode.com/u/beriamegha8/" target="_blank">
+                    <svg id="leetcode" fill="black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="169.063px" height="169.063px">
+                        <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/>
+                    </svg>
+                </a>
+                
+                <a href="MeghaBeriaResume20Mar.pdf" download="Megha_Beria_Resume" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" width="169.063px" height="169.063px">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                        <path d="M12 7V9H8l4 4 4-4h-4V7h-4z"/>
+                    </svg>
+                </a>                
+
+                <a href="https://www.instagram.com/beriamegha8" target="_blank">
+                    <svg id="instagram" fill="rgb(217, 50, 117)" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="169.063px" height="169.063px" viewBox="0 0 169.063 169.063" style="enable-background:new 0 0 169.063 169.063;"
+xml:space="preserve">
+  <g>
+    <path d="M122.406,0H46.654C20.929,0,0,20.93,0,46.655v75.752c0,25.726,20.929,46.655,46.654,46.655h75.752
+                          c25.727,0,46.656-20.93,46.656-46.655V46.655C169.063,20.93,148.133,0,122.406,0z M154.063,122.407
+                          c0,17.455-14.201,31.655-31.656,31.655H46.654C29.2,154.063,15,139.862,15,122.407V46.655C15,29.201,29.2,15,46.654,15h75.752
+                          c17.455,0,31.656,14.201,31.656,31.655V122.407z" />
+    <path d="M84.531,40.97c-24.021,0-43.563,19.542-43.563,43.563c0,24.02,19.542,43.561,43.563,43.561s43.563-19.541,43.563-43.561
+                          C128.094,60.512,108.552,40.97,84.531,40.97z M84.531,113.093c-15.749,0-28.563-12.812-28.563-28.561
+                          c0-15.75,12.813-28.563,28.563-28.563s28.563,12.813,28.563,28.563C113.094,100.281,100.28,113.093,84.531,113.093z" />
+    <path d="M129.921,28.251c-2.89,0-5.729,1.17-7.77,3.22c-2.051,2.04-3.23,4.88-3.23,7.78c0,2.891,1.18,5.73,3.23,7.78
+                          c2.04,2.04,4.88,3.22,7.77,3.22c2.9,0,5.73-1.18,7.78-3.22c2.05-2.05,3.22-4.89,3.22-7.78c0-2.9-1.17-5.74-3.22-7.78
+                          C135.661,29.421,132.821,28.251,129.921,28.251z" />
+  </g>
+</svg>
+                </a>
+                
+            </div>
+        </div>
+        <div class="card-section" id="experience">
+            <div class="card-content">
+                <div class="card-subtitle">HONORS & ACCOLADES</div>
+                <div class="card-timeline">
+                    <div class="card-item" data-year="Active">
+                        <div class="card-item-title">Intern <span>at SIT, Pune</span></div>
+                        <div class="card-item-desc">
+                            Built an efficient institution timetabling scheduler that generates timetable in a single click taking every constraint, with a scope of manual changes and manipulation.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="Active">
+                        <div class="card-item-title">Competitive Programming Co- Lead <span>at  GDSC SIT, Pune</span></div>
+                        <div class="card-item-desc">
+                            Organised and managed technical workshops alongwith contributing to upbuilding coding culture in college.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="Active">
+                        <div class="card-item-title">Technical Executive <span>at Codex SIT, Pune</span></div>
+                        <div class="card-item-desc">
+                            Organised and managed technical workshops alongwith contributing to upbuilding coding culture in college.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="Active">
+                        <div class="card-item-title">Student Placement Coordinator <span>at SIT, Pune</span></div>
+                        <div class="card-item-desc">
+                            Experience in handling recruitment drives and proficient in using
+SUPERSET placement software.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="2024">
+                        <div class="card-item-title">Attendee <span>at Veritas Illuminate Technical Expo 2024</span></div>
+                        <div class="card-item-desc">
+                            Selected as one of 4 students among the college to attend the Veritas Illuminate Technical Expo 2024, engaging with over 200+
+industry professionals to explore their product.
+                        </div>
+                    </div>
+                </div>
+                <div class="card-subtitle">NOTABLE PROJECTS</div>
+                <div class="card-timeline">
+                    <div class="card-item" data-year="Active">
+                        <div class="card-item-title">Flips</div>
+                        <div class="card-item-desc">
+                            For Flipkart Grid 6.0, developed a data-driven, AI-based voice bot using eBay and Flipkart APIs, integrating machine learning to predict price trends with 40% improved accuracy.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="Active">
+                        <div class="card-item-title">Reci-fy</div>
+                        <div class="card-item-desc">
+                            Created a recipe sharing platform with a recipe generation feature using a Gen AI-powered chat, allowing users to generate recipes based on ingredients, time, and cuisine type.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="Active">
+                        <div class="card-item-title">DaanBox</div>
+                        <div class="card-item-desc">
+                            Developed a Flutter-based medical equipment donation app to connect donors and recipients, streamlining access to essential health resources through a user-friendly platform.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="Active">
+                        <div class="card-item-title">Face recognition using image processing</div>
+                        <div class="card-item-desc">
+                            Built an AI model for facial recognition using image processing as a company project.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="2024">
+                        <div class="card-item-title">My Portfolio</div>
+                        <div class="card-item-desc">
+                            Built a portfolio website leveraging technology and deployed using docker.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="2024">
+                        <div class="card-item-title">Sprout- An E- Learning platform</div>
+                        <div class="card-item-desc">
+                            Developed an E- Learning platform with gamification features, on java.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="2024">
+                        <div class="card-item-title">We talk</div>
+                        <div class="card-item-desc">
+                            Built a mini chat application leveraging socket programming in JAVA, integrating server and client communication.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="2023">
+                        <div class="card-item-title">FASE- Facial authentication system entry</div>
+                        <div class="card-item-desc">
+                            Designed a surveillance system with Telegram bot integration for remote access.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="2023">
+                        <div class="card-item-title">IoT fire alarm + extinguisher</div>
+                        <div class="card-item-desc">
+                            Built an automated fire extinguisher integrated alarm with real-time action.
+                        </div>
+                    </div>
+                    <div class="card-item" data-year="2022">
+                        <div class="card-item-title">M&M Python Voice Assistant</div>
+                        <div class="card-item-desc">
+                            Created a voice-controlled app with YouTube, WhatsApp, email and browser integration.
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-section" id="contact">
+            <div class="card-content">
+                <div class="card-subtitle">CONTACT</div>
+                <div class="card-contact-wrapper">
+                    <div class="card-contact">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        Symbiosis Institute of Technology,Pune
+                    </div>
+                    <div class="card-contact">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                        </svg>
+                        +91 7896221032
+                    </div>
+                    <div class="card-contact">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <path d="M22 6l-10 7L2 6"/>
+                        </svg>
+                        beriamegha8@gmail.com
+                    </div>
+                    <a href="https://www.linkedin.com/in/megha-beria-209b75251/" target="_blank">
+                        <button class="contact-me">WORK TOGETHER</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-buttons">
+            <button data-section="#about" class="is-active">ABOUT</button>
+            <button data-section="#experience">EXPERIENCE</button>
+            <button data-section="#contact">CONTACT</button>
+        </div>
+    </div>
+</div>
+<script>
+    const buttons = document.querySelectorAll(".card-buttons button");
+    const sections = document.querySelectorAll(".card-section");
+    const card = document.querySelector(".card");
+    const handleButtonClick = (e) => {
+        const targetSection = e.target.getAttribute("data-section");
+        const section = document.querySelector(targetSection);
+        targetSection !== "#about" ?
+            card.classList.add("is-active") :
+            card.classList.remove("is-active");
+        card.setAttribute("data-state", targetSection);
+        sections.forEach((s) => s.classList.remove("is-active"));
+        buttons.forEach((b) => b.classList.remove("is-active"));
+        e.target.classList.add("is-active");
+        section.classList.add("is-active");
+    };
+    buttons.forEach((btn) => {
+        btn.addEventListener("click", handleButtonClick);
+    });
+</script>
+</body>
+
+</html>
